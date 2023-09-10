@@ -68,7 +68,7 @@ export function docs(app: INestApplication<any>): OpenAPIObject {
       'This is the swagger documentation for the Polymorphlas  API',
     )
     .setVersion('1.0')
-    .addTag('Polymorphlabs')
+    .addTag('Polymorphlabs API')
     .build();
 
   return SwaggerModule.createDocument(app, config);
