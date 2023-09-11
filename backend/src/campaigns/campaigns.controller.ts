@@ -6,12 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  HttpStatus,
 } from '@nestjs/common';
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserGuard } from 'src/users/user.guard';
+import { User } from 'src/users/entities/user.entity';
+import { GetUser } from 'src/users/get_user.decorator';
+import { CreateResponseType, createResponse } from 'util/shared';
 
-@Controller('campaigns')
+@ApiTags('Campaigns')
+@UseGuards(UserGuard)
+@ApiBearerAuth()
+@Controller({ path: 'campaigns', version: '1' })
 export class CampaignsController {
   constructor(private readonly campaignsService: CampaignsService) {}
 
@@ -21,8 +31,16 @@ export class CampaignsController {
   }
 
   @Post()
-  create(@Body() createCampaignDto: CreateCampaignDto) {
-    return this.campaignsService.create(createCampaignDto);
+  @ApiResponse({ status: HttpStatus.CREATED })
+  async create(
+    @Body() createCampaignDto: CreateCampaignDto,
+    @GetUser() user: User,
+  ): Promise<CreateResponseType> {
+    return createResponse(
+      HttpStatus.CREATED,
+      'Campaign created successfully',
+      await this.campaignsService.create(createCampaignDto, user),
+    );
   }
 
   @Get()

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, LoginDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -23,6 +23,7 @@ export class UsersController {
 
   @Post('login/')
   @ApiResponse({ status: HttpStatus.OK })
+  @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto): Promise<CreateResponseType> {
     return createResponse(
       HttpStatus.OK,

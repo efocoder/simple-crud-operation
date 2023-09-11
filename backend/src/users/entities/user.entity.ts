@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,6 +13,7 @@ import { Exclude } from 'class-transformer';
 
 import * as bcrypt from 'bcrypt';
 import { STATUS } from 'util/shared';
+import { Campaign } from 'src/campaigns/entities/campaign.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -56,4 +58,7 @@ export class User extends BaseEntity {
   static async checkPassword(password: string, user: any): Promise<boolean> {
     return await bcrypt.compare(password, user.password);
   }
+
+  @OneToMany(() => Campaign, (campaign) => campaign.user)
+  campaigns: Campaign[];
 }

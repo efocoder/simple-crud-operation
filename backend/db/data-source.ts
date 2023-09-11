@@ -15,7 +15,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
   logging: true,
-  synchronize: false, // TODO: Remove and configure migrations [sedem]
+  synchronize: true, // TODO: Remove and configure migrations [sedem]
   factories: [GroupsFactory],
   seeds: [MainSeeder],
 };

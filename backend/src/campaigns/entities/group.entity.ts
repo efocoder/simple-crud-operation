@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { STATUS } from 'util/shared';
+import { Campaign } from './campaign.entity';
 
 @Entity({ name: 'groups' })
 export class Group extends BaseEntity {
@@ -33,4 +35,7 @@ export class Group extends BaseEntity {
   @DeleteDateColumn()
   @Exclude({ toPlainOnly: true })
   deleted_at: Date;
+
+  @OneToMany(() => Campaign, (campaign) => campaign.group)
+  campaigns: Campaign[];
 }
