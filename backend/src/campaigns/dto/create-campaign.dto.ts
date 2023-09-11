@@ -1,13 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsEmail,
-  IsString,
-  IsAlpha,
-  IsAlphanumeric,
-  IsUUID,
-  Allow,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateCampaignDto {
   @IsNotEmpty()

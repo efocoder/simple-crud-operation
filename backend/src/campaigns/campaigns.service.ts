@@ -10,6 +10,7 @@ import { Group } from './entities/group.entity';
 import { STATUS } from 'util/shared';
 import { Campaign } from './entities/campaign.entity';
 import { User } from 'src/users/entities/user.entity';
+import { GetCampaignFilterDto } from './dto/get-campaign-filter.dto';
 
 @Injectable()
 export class CampaignsService {
@@ -19,15 +20,13 @@ export class CampaignsService {
     return await Group.find({ where: { status: STATUS.active } });
   }
 
-  async create(createCampaignDto: CreateCampaignDto, user: User) {
+  async create(
+    createCampaignDto: CreateCampaignDto,
+    user: User,
+  ): Promise<Campaign> {
     const { title, description, groupId } = createCampaignDto;
 
-    const group = await Group.findOneBy({
-      id: groupId,
-      status: STATUS.active,
-    });
-    if (group === null)
-      throw new NotFoundException('Group specified does not exist');
+    const group = await this.get_group(groupId);
 
     try {
       const campaign: Campaign = Campaign.create({
@@ -45,23 +44,76 @@ export class CampaignsService {
       this.logger.error(error);
       throw new InternalServerErrorException('Something went wrong');
     }
-
-    return 'This action adds a new campaign';
   }
 
-  findAll() {
-    return `This action returns all campaigns`;
+  async findAll(): Promise<Campaign[]> {
+    const campaigns: Campaign[] = await Campaign.find({
+      where: { status: STATUS.active },
+    });
+    return campaigns;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} campaign`;
+  async findCampaignsWithFilter(
+    filterDto: GetCampaignFilterDto,
+  ): Promise<Campaign[]> {
+    const { search } = filterDto;
+
+    const campaigns: Campaign[] = await Campaign.createQueryBuilder('campaign')
+      .leftJoinAndSelect('campaign.group', 'group')
+      .leftJoinAndSelect('campaign.user', 'user')
+      .where(
+        'user.nickname ILIKE :userName OR user.email = :email OR user.phone = :phone',
+        { userName: `%${search}%`, email: search, phone: search },
+      )
+      .getMany();
+
+    return campaigns;
   }
 
-  update(id: number, updateCampaignDto: UpdateCampaignDto) {
-    return `This action updates a #${id} campaign`;
+  async findOne(id: string) {
+    const campaign: Campaign = await Campaign.findOneBy({
+      id: id,
+      status: STATUS.active,
+    });
+
+    if (campaign === null) throw new NotFoundException('Group does not exist');
+
+    return campaign;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} campaign`;
+  async update(id: string, updateCampaignDto: UpdateCampaignDto) {
+    const { title, description, groupId } = updateCampaignDto;
+
+    const campaign: Campaign = await this.findOne(id);
+
+    let group: Group;
+
+    if (groupId !== null) group = await this.get_group(groupId);
+    if (title !== null) campaign.title = title;
+    if (description !== null) campaign.description = description;
+    campaign.group = group;
+
+    campaign.save();
+    campaign.reload();
+
+    return campaign;
+  }
+
+  async remove(id: string): Promise<void> {
+    const campaign: Campaign = await this.findOne(id);
+    campaign.status = STATUS.deleted;
+    campaign.save();
+  }
+
+  private async get_group(id: string) {
+    const group = await Group.findOneBy({
+      id: id,
+      status: STATUS.active,
+    });
+
+    if (group === null)
+      throw new NotFoundException('Group selected does not exist');
+
+    return group;
   }
 }

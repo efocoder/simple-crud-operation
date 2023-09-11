@@ -16,7 +16,7 @@ export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, nickname, password } = createUserDto;
+    const { email, nickname, phone, password } = createUserDto;
 
     try {
       const hashedPassword: string = await User.hashPassword(password);
@@ -24,6 +24,7 @@ export class UsersService {
       const user: User = User.create({
         email,
         nickname,
+        phone,
         password: hashedPassword,
       });
       await user.save();
@@ -35,6 +36,8 @@ export class UsersService {
         throw new BadRequestException({ email: 'Email already exist' });
       } else if (error.constraint === 'UQ_ad02a1be8707004cb805a4b5023') {
         throw new BadRequestException({ nickname: 'Nickname already exist' });
+      } else if (error.constraint === 'UQ_a000cca60bcf04454e727699490') {
+        throw new BadRequestException({ phone: 'Phone number already exist' });
       } else {
         throw new InternalServerErrorException('Something went wrong');
       }

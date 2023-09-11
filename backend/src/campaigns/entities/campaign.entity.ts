@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -43,6 +44,9 @@ export class Campaign extends BaseEntity {
   @ManyToOne(() => User, (user) => user.campaigns)
   user: User;
 
-  @ManyToOne(() => Group, (group) => group.campaigns)
+  @ManyToOne(() => Group, (group) => group.campaigns, {
+    eager: true,
+  })
+  @JoinTable()
   group: Group;
 }

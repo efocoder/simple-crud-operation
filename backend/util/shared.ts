@@ -4,7 +4,7 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 export function formatError(errors: any) {
   const myErrors = {};
 
-  errors.forEach((error) => {
+  errors.forEach((error: { property: string | number; constraints: any }) => {
     myErrors[error.property] = error.constraints;
   });
 
@@ -33,10 +33,10 @@ export function createResponse(
   };
   if (data && Array.isArray(data)) {
     delete resp.token;
-    data = [data];
+    data = data;
     if (data.length > 0) {
       resp.data = data;
-    }
+    } else resp.data = [];
   } else if (isLogin) {
     delete resp.data;
     resp.token = token;

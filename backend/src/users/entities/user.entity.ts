@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumberString, Length } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 import * as bcrypt from 'bcrypt';
@@ -29,6 +29,12 @@ export class User extends BaseEntity {
   @Length(4, 6)
   @IsNotEmpty()
   nickname: string;
+
+  @Column({ unique: true })
+  @Length(9, 13)
+  @IsNotEmpty()
+  @IsNumberString({}, { allowNaN: false })
+  phone: string;
 
   @Column()
   @IsNotEmpty()
