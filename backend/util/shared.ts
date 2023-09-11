@@ -49,8 +49,8 @@ export function createResponse(
 }
 
 export enum STATUS {
-  active = 1,
-  deleted = 0,
+  active = 'active',
+  deleted = 'deleted',
 }
 
 export function docs(app: INestApplication<any>): OpenAPIObject {

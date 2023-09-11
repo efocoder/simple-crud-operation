@@ -1,52 +1,48 @@
 import {
-  BaseEntity,
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  DataType,
+  IsUUID,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 import * as bcrypt from 'bcrypt';
 import { STATUS } from 'util/shared';
+import { UUIDV4 } from 'sequelize';
 
-@Entity({ name: 'users' })
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+@Table({ tableName: 'users', timestamps: true })
+export class User extends Model<User> {
+  @PrimaryKey
+  @IsUUID(4)
+  @Column({ defaultValue: UUIDV4, unique: true })
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, allowNull: false })
   @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, allowNull: false })
   @Length(4, 6)
   @IsNotEmpty()
   nickname: string;
 
-  @Column()
+  @Column
   @IsNotEmpty()
   @Length(6)
   @Exclude({ toPlainOnly: true })
   password: string;
 
-  @Column({ type: 'enum', enum: STATUS, default: STATUS.active })
-  status: number;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  @Exclude({ toPlainOnly: true })
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  @Exclude({ toPlainOnly: true })
-  deleted_at: Date;
+  @Column({
+    type: DataType.ENUM(STATUS.active, STATUS.deleted),
+    allowNull: false,
+    defaultValue: STATUS.active,
+  })
+  status: string;
 
   static async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt();

@@ -3,12 +3,12 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    SequelizeModule.forFeature([User]),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,

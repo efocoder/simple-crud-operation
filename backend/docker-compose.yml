@@ -20,7 +20,8 @@ services:
     env_file:
       - .env
     ports:
-      - ${PG_PORT}:${PG_PORT}
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    restart: always
     volumes:
       - data:/var/lib/postgresql/data 
   

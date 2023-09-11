@@ -21,7 +21,7 @@ export class UsersService {
     try {
       const hashedPassword: string = await User.hashPassword(password);
 
-      const user: User = User.create({
+      const user: User = await User.create({
         email,
         nickname,
         password: hashedPassword,
@@ -45,9 +45,8 @@ export class UsersService {
     const { email, password } = loginDto;
 
     try {
-      const user: User = await User.findOneBy({
-        email: email,
-        status: STATUS.active,
+      const user: User = await User.findOne({
+        where: { email: email, status: STATUS.active },
       });
 
       if (user == null) this.handleException();
