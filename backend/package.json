@@ -18,14 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "sequelize": "ts-node ./node_modules/sequelize",
-    "migration:generate": "pnpm sequelize migration:generate ",
-    "db:migrate": "pnpm sequelize db:migrate",
-    "db:migrate:undo ": "pnpm sequelize db:migrate:undo ",
-    "seed:generate": "pnpm sequelize seed:generate",
-    "db:seed": "pnpm sequelize db:seed"
+    "seed": "pnpm build && node dist/db/seeds/seed.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.1",
     "@nestjs/core": "^10.0.0",
@@ -33,7 +29,6 @@
     "@nestjs/mapped-types": "^0.0.1",
     "@nestjs/passport": "^10.0.1",
     "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/sequelize": "^10.0.0",
     "@nestjs/swagger": "^7.1.10",
     "@nestjs/typeorm": "^10.0.0",
     "bcrypt": "^5.1.1",
@@ -42,13 +37,11 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "sequelize": "^6.33.0",
     "sequelize-typescript": "^2.1.5",
-    "typeorm": "^0.2.45",
-    "typeorm-seeding": "^1.6.1"
+    "typeorm": "^0.3.17",
+    "typeorm-extension": "^3.0.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

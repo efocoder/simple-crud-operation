@@ -13,11 +13,10 @@ COPY package*.json ./
 
 RUN pnpm install
 
-# RUN pnpm install -g run-rs 
-
-# RUN run-rs
 
 COPY . .
+
+RUN chmod u+x script.sh
 
 RUN pnpm build
 
