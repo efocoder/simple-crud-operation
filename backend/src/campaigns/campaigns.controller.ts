@@ -10,7 +10,12 @@ import {
   HttpStatus,
   HttpCode,
   Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+  Req
 } from '@nestjs/common';
+import { Request } from 'express';
+
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
@@ -48,20 +53,29 @@ export class CampaignsController {
   }
 
   @Get()
-  async find(
+  async find(@Req() req: Request,
     @Query() filterDto?: GetCampaignFilterDto,
-  ): Promise<CreateResponseType> {
-    let campaigns: Campaign[];
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+  ) {
+    limit = limit > 100 ? 100 : limit;
 
-    if (Object.keys(filterDto).length) {
-      campaigns = await this.campaignsService.findCampaignsWithFilter(
-        filterDto,
-      );
-    } else {
-      campaigns = await this.campaignsService.findAll();
-    }
 
-    return createResponse(HttpStatus.OK, 'Request successful', campaigns);
+    return this.campaignsService.paginate({
+      page,
+      limit,
+      route: `${req.protocol}://${req.get('Host')}${req.originalUrl}`,
+    }, filterDto);
+
+
+    // if (Object.keys(filterDto).length) {
+    //   campaigns = await this.campaignsService.findCampaignsWithFilter(
+    //     filterDto)
+    // } else {
+    //   campaigns = await this.campaignsService.findAll()
+    // }
+
+    // return createResponse(HttpStatus.OK, 'Request successful', campaigns);
   }
 
   @Get(':id')

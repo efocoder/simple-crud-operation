@@ -12,6 +12,12 @@ import { Campaign } from './entities/campaign.entity';
 import { User } from 'src/users/entities/user.entity';
 import { GetCampaignFilterDto } from './dto/get-campaign-filter.dto';
 
+import {
+  paginate,
+  IPaginationOptions,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
+
 @Injectable()
 export class CampaignsService {
   private readonly logger = new Logger(CampaignsService.name);
@@ -44,6 +50,26 @@ export class CampaignsService {
       this.logger.error(error);
       throw new InternalServerErrorException('Something went wrong');
     }
+  }
+
+  async paginate(options: IPaginationOptions, filterDto?: GetCampaignFilterDto): Promise<Pagination<Campaign>> {
+    const queryBuilder = Campaign.createQueryBuilder('campaign');
+    queryBuilder.leftJoinAndSelect('campaign.group', 'group')
+    .leftJoinAndSelect('campaign.user', 'user')
+
+    if (filterDto && Object.keys(filterDto).length) { 
+          const { search } = filterDto;
+          queryBuilder.where(
+            'user.nickname ILIKE :userName OR user.email = :email OR user.phone = :phone',
+            { userName: `%${search}%`, email: search, phone: search },
+          )
+          .getMany();
+    } else {
+          queryBuilder.where({ status: STATUS.active })
+    }
+    queryBuilder.orderBy('campaign.created_at', 'DESC'); // Or whatever you need to do
+
+    return paginate<Campaign>(queryBuilder, options);
   }
 
   async findAll(): Promise<Campaign[]> {

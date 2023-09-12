@@ -41,10 +41,10 @@ export class Campaign extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   deleted_at: Date;
 
-  @ManyToOne(() => User, (user) => user.campaigns)
+  @ManyToOne(() => User, (user: User) => user.campaigns)
   user: User;
 
-  @ManyToOne(() => Group, (group) => group.campaigns, {
+  @ManyToOne(() => Group, (group: Group) => group.campaigns, {
     eager: true,
   })
   @JoinTable()
