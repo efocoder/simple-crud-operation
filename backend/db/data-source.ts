@@ -14,6 +14,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   database: configService.get('POSTGRES_DB'),
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
+  dropSchema: true,
   logging: true,
   synchronize: true, // TODO: Remove and configure migrations [sedem]
   factories: [GroupsFactory],

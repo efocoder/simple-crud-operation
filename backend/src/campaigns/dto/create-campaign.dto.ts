@@ -17,3 +17,13 @@ export class CreateCampaignDto {
   @ApiProperty()
   groupId: string;
 }
+
+export class CreateGroupDto {
+  @IsNotEmpty()
+  @IsUUID('4')
+  id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+}

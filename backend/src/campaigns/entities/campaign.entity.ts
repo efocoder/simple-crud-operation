@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
-import { User } from 'src/users/entities/user.entity';
 import {
   BaseEntity,
   Column,
@@ -12,8 +11,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { STATUS } from 'util/shared';
+
 import { Group } from './group.entity';
+import { STATUS } from '../../../util/shared';
+import { User } from '../../users/entities/user.entity';
+
 @Entity({ name: 'campaigns' })
 export class Campaign extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

@@ -8,12 +8,13 @@ import {
 import { CreateUserDto, LoginDto } from './dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './entities/user.entity';
-import { STATUS } from 'util/shared';
+import { STATUS } from '../../util/shared';
 
 @Injectable()
 export class UsersService {
-  constructor(private jwtService: JwtService) {}
   private readonly logger = new Logger(UsersService.name);
+
+  constructor(private jwtService: JwtService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, nickname, phone, password } = createUserDto;
@@ -27,8 +28,9 @@ export class UsersService {
         phone,
         password: hashedPassword,
       });
+
       await user.save();
-      user.reload();
+      await user.reload();
       return user;
     } catch (error) {
       this.logger.error(error);
@@ -39,6 +41,7 @@ export class UsersService {
       } else if (error.constraint === 'UQ_a000cca60bcf04454e727699490') {
         throw new BadRequestException({ phone: 'Phone number already exist' });
       } else {
+        this.logger.error(error);
         throw new InternalServerErrorException('Something went wrong');
       }
     }

@@ -12,8 +12,8 @@ import { IsEmail, IsNotEmpty, IsNumberString, Length } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 import * as bcrypt from 'bcrypt';
-import { STATUS } from 'util/shared';
-import { Campaign } from 'src/campaigns/entities/campaign.entity';
+import { STATUS } from '../../../util/shared';
+import { Campaign } from '../../campaigns/entities/campaign.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -55,6 +55,8 @@ export class User extends BaseEntity {
   @DeleteDateColumn()
   @Exclude({ toPlainOnly: true })
   deleted_at: Date;
+  @OneToMany(() => Campaign, (campaign) => campaign.user)
+  campaigns: Campaign[];
 
   static async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt();
@@ -64,7 +66,4 @@ export class User extends BaseEntity {
   static async checkPassword(password: string, user: any): Promise<boolean> {
     return await bcrypt.compare(password, user.password);
   }
-
-  @OneToMany(() => Campaign, (campaign) => campaign.user)
-  campaigns: Campaign[];
 }

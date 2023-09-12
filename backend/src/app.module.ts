@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { Config } from 'config/config';
 import { UsersModule } from './users/users.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from 'db/data-source';
+import { Config } from '../config/config';
+import { dataSourceOptions } from '../db/data-source';
 
 @Module({
   imports: [

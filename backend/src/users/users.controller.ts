@@ -1,8 +1,8 @@
-import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, LoginDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateResponseType, createResponse } from 'util/shared';
+import { createResponse, CreateResponseType } from '../../util/shared';
 
 @ApiTags('Users')
 @Controller({ path: 'users/', version: '1' })

@@ -7,16 +7,16 @@ import {
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
 import { Group } from './entities/group.entity';
-import { STATUS } from 'util/shared';
 import { Campaign } from './entities/campaign.entity';
 import { User } from 'src/users/entities/user.entity';
 import { GetCampaignFilterDto } from './dto/get-campaign-filter.dto';
 
 import {
-  paginate,
   IPaginationOptions,
+  paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
+import { STATUS } from '../../util/shared';
 
 @Injectable()
 export class CampaignsService {
@@ -52,20 +52,25 @@ export class CampaignsService {
     }
   }
 
-  async paginate(options: IPaginationOptions, filterDto?: GetCampaignFilterDto): Promise<Pagination<Campaign>> {
+  async paginate(
+    options: IPaginationOptions,
+    filterDto?: GetCampaignFilterDto,
+  ): Promise<Pagination<Campaign>> {
     const queryBuilder = Campaign.createQueryBuilder('campaign');
-    queryBuilder.leftJoinAndSelect('campaign.group', 'group')
-    .leftJoinAndSelect('campaign.user', 'user')
+    queryBuilder
+      .leftJoinAndSelect('campaign.group', 'group')
+      .leftJoinAndSelect('campaign.user', 'user');
 
-    if (filterDto && Object.keys(filterDto).length) { 
-          const { search } = filterDto;
-          queryBuilder.where(
-            'user.nickname ILIKE :userName OR user.email = :email OR user.phone = :phone',
-            { userName: `%${search}%`, email: search, phone: search },
-          )
-          .getMany();
+    if (filterDto && Object.keys(filterDto).length) {
+      const { search } = filterDto;
+      queryBuilder
+        .where(
+          'user.nickname ILIKE :userName OR user.email = :email OR user.phone = :phone',
+          { userName: `%${search}%`, email: search, phone: search },
+        )
+        .getMany();
     } else {
-          queryBuilder.where({ status: STATUS.active })
+      queryBuilder.where({ status: STATUS.active });
     }
     queryBuilder.orderBy('campaign.created_at', 'DESC'); // Or whatever you need to do
 

@@ -10,8 +10,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { STATUS } from 'util/shared';
+
 import { Campaign } from './campaign.entity';
+import { STATUS } from '../../../util/shared';
 
 @Entity({ name: 'groups' })
 export class Group extends BaseEntity {
