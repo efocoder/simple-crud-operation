@@ -1,10 +1,88 @@
-import NavBar from "../components/NavBar.tsx";
+import AppLogo from '../assets/logo.svg'
 
 const Home: React.FC = () => {
     return (
-        <div
-            className="relative bg-whitesmoke-100 box-border w-full h-[1002px] overflow-hidden text-left text-sm text-primary-colour-3 font-matter border-[1px] border-solid border-stroke">
-            <NavBar/>
+        <div className="relative bg-whitesmoke-100 box-border w-full h-[1002px] overflow-hidden text-left text-sm text-primary-colour-3 font-matter border-[1px] border-solid
+border-stroke">
+            <div className="absolute top-[calc(50%_-_502px)] bg-white box-border w-full flex flex-row py-6 px-[250px] items-center justify-between
+border-[1px] border-solid border-stroke">
+                <img
+                    className="relative w-[125.32px] h-6 overflow-hidden shrink-0 object-cover"
+                    alt=""
+                    src={AppLogo}
+                />
+                <div className="flex flex-row items-center justify-start gap-[12px]">
+                    <div className="rounded-981xl flex flex-row py-2 px-3 items-center justify-start gap-[8px]">
+                        <img
+                            className="relative w-5 h-5 object-cover"
+                            alt=""
+                            src="/undefined1.png"
+                        />
+                        <div className="relative tracking-[-0.02em] font-medium">
+                            Dashboard
+                        </div>
+                    </div>
+                    <div className="rounded-981xl flex flex-row py-2 px-3 items-center justify-start gap-[8px]">
+                        <img
+                            className="relative w-5 h-5 object-cover"
+                            alt=""
+                            src="/undefined2.png"
+                        />
+                        <div className="relative tracking-[-0.02em] font-medium">
+                            Bookings
+                        </div>
+                    </div>
+                    <div
+                        className="rounded-981xl bg-whitesmoke-100 flex flex-row py-2 px-3 items-center justify-start gap-[8px] text-primary-colour-6">
+                        <img
+                            className="relative w-5 h-5 object-cover"
+                            alt=""
+                            src="/undefined3.png"
+                        />
+                        <div className="relative tracking-[-0.02em] font-medium">
+                            Customers
+                        </div>
+                    </div>
+                    <div className="rounded-981xl flex flex-row py-2 px-3 items-center justify-start gap-[8px]">
+                        <div className="flex flex-row items-center justify-start">
+                            <img
+                                className="relative w-5 h-5 object-cover"
+                                alt=""
+                                src="/undefined4.png"
+                            />
+                        </div>
+                        <div className="relative tracking-[-0.02em] font-medium">
+                            Services
+                        </div>
+                    </div>
+                    <div className="rounded-981xl hidden flex-row py-2 px-3 items-center justify-start gap-[8px]">
+                        <div className="flex flex-row items-center justify-start">
+                            <div className="flex flex-row items-center justify-start">
+                                <img
+                                    className="relative w-5 h-5 object-cover"
+                                    alt=""
+                                    src="/undefined5.png"
+                                />
+                            </div>
+                        </div>
+                        <div className="relative tracking-[-0.02em] font-medium">Staff</div>
+                    </div>
+                </div>
+                <div className="rounded box-border w-52 overflow-hidden shrink-0 flex flex-row py-2 px-4 items-center justify-center gap-[16px] text-darkslategray-100 border-[1px]
+border-solid border-gainsboro-100">
+                    <div className="flex flex-col items-start justify-start gap-[8px]">
+                        <div className="relative font-medium">Buukmenow Demo</div>
+                        <div className="relative text-xs font-medium text-darkgray">
+                            Buukmenow@gmail.com
+                        </div>
+                    </div>
+                    <img
+                        className="relative w-4 h-4 overflow-hidden shrink-0 object-cover"
+                        alt=""
+                        src="/undefined6.png"
+                    />
+                </div>
+            </div>
             <div
                 className="absolute top-[122px] left-[calc(50%_-_470px)] w-[939px] flex flex-row items-end justify-start text-[20px] text-primary-colour-6">
                 <div className="flex flex-col items-start justify-start gap-[16px]">
@@ -45,8 +123,8 @@ const Home: React.FC = () => {
             <div
                 className="absolute top-[328px] left-[250px] flex flex-col items-end justify-start text-smi text-primary-colour-4">
                 <div className="self-stretch flex flex-row items-start justify-start text-primary-colour-6">
-                    <div
-                        className="rounded-tl-lg rounded-tr-none rounded-b-none bg-whitesmoke-200 box-border w-[195px] flex flex-row py-4 px-6 items-center justify-start gap-[16px] border-t-[2px] border-solid border-whitesmoke-300 border-b-[2px] border-l-[2px]">
+                    <div className="rounded-tl-lg rounded-tr-none rounded-b-none bg-whitesmoke-200 box-border w-[195px] flex flex-row py-4 px-6 items-center justify-start gap-[16px]
+border-t-[2px] border-solid border-whitesmoke-300 border-b-[2px] border-l-[2px]">
                         <img
                             className="relative w-[15px] h-[15px] overflow-hidden shrink-0 object-cover hidden"
                             alt=""
@@ -81,8 +159,8 @@ const Home: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div
-                        className="bg-whitesmoke-200 box-border w-[145px] flex flex-row py-4 px-6 items-center justify-start gap-[16px] border-t-[2px] border-solid border-whitesmoke-300 border-b-[2px]">
+                    <div className="bg-whitesmoke-200 box-border w-[145px] flex flex-row py-4 px-6 items-center justify-start gap-[16px] border-t-[2px] border-solid border-whitesmoke-300
+border-b-[2px]">
                         <img
                             className="relative w-[15px] h-[15px] overflow-hidden shrink-0 object-cover hidden"
                             alt=""
@@ -99,8 +177,8 @@ const Home: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div
-                        className="rounded-tl-none rounded-tr-lg rounded-b-none bg-whitesmoke-200 box-border w-[152px] flex flex-row py-4 px-6 items-center justify-start gap-[16px] border-t-[2px] border-solid border-whitesmoke-300 border-r-[2px] border-b-[2px]">
+                    <div className="rounded-tl-none rounded-tr-lg rounded-b-none bg-whitesmoke-200 box-border w-[152px] flex flex-row py-4 px-6 items-center justify-start gap-[16px]
+border-t-[2px] border-solid border-whitesmoke-300 border-r-[2px] border-b-[2px]">
                         <img
                             className="relative w-[15px] h-[15px] overflow-hidden shrink-0 object-cover hidden"
                             alt=""
@@ -513,8 +591,8 @@ const Home: React.FC = () => {
                         <div className="relative tracking-[-0.02em] font-medium hidden">
                             Email
                         </div>
-                        <div
-                            className="self-stretch rounded-md bg-white box-border h-[51px] flex flex-row p-4 items-center justify-start gap-[10px] text-primary-colour-3 border-[1.5px] border-solid border-lightgray">
+                        <div className="self-stretch rounded-md bg-white box-border h-[51px] flex flex-row p-4 items-center justify-start gap-[10px] text-primary-colour-3 border-[1.5px]
+border-solid border-lightgray">
                             <img
                                 className="relative w-5 h-5 object-cover"
                                 alt=""
@@ -524,15 +602,15 @@ const Home: React.FC = () => {
                                 className="relative tracking-[-0.02em]">{`Search customer log by customer name, email address & phone number`}</div>
                         </div>
                     </div>
-                    <div
-                        className="rounded-md bg-white box-border h-12 flex flex-row p-4 items-center justify-center text-darkslategray-300 border-[1px] border-solid border-darkslategray-300">
+                    <div className="rounded-md bg-white box-border h-12 flex flex-row p-4 items-center justify-center text-darkslategray-300 border-[1px] border-solid
+border-darkslategray-300">
                         <div className="relative tracking-[-0.02em] font-medium">
                             Search
                         </div>
                     </div>
                 </div>
-                <div
-                    className="rounded-md bg-darkslategray-300 box-border h-12 flex flex-row p-4 items-center justify-center gap-[10px] text-white border-[1px] border-solid border-darkslategray-300">
+                <div className="rounded-md bg-darkslategray-300 box-border h-12 flex flex-row p-4 items-center justify-center gap-[10px] text-white border-[1px] border-solid
+border-darkslategray-300">
                     <img
                         className="relative w-5 h-5 object-cover"
                         alt=""
