@@ -6,4 +6,4 @@ echo "Loading groups"
 pnpm seed
 
 echo "starting server"
-pnpm start:dev
+pnpm start #start:dev
