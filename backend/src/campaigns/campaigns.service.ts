@@ -4,7 +4,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCampaignDto } from './dto/create-campaign.dto';
+import { CreateCampaignDto, CreateGroupDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
 import { Group } from './entities/group.entity';
 import { Campaign } from './entities/campaign.entity';
@@ -26,6 +26,17 @@ export class CampaignsService {
     return await Group.find({ where: { status: STATUS.active } });
   }
 
+  async createGroup(createGroupDto: CreateGroupDto) {
+    const { name } = createGroupDto;
+
+    const group = Group.create({ name });
+
+    await group.save();
+    await group.reload();
+
+    return group;
+  }
+
   async create(
     createCampaignDto: CreateCampaignDto,
     user: User,
@@ -42,11 +53,11 @@ export class CampaignsService {
         group,
       });
       await campaign.save();
-      campaign.reload();
+      await campaign.reload();
 
       return campaign;
     } catch (error) {
-      this.logger.error('Error occured');
+      this.logger.error('Error occurred');
       this.logger.error(error);
       throw new InternalServerErrorException('Something went wrong');
     }
@@ -63,7 +74,7 @@ export class CampaignsService {
 
     if (filterDto && Object.keys(filterDto).length) {
       const { search } = filterDto;
-      queryBuilder
+      await queryBuilder
         .where(
           'user.nickname ILIKE :userName OR user.email = :email OR user.phone = :phone',
           { userName: `%${search}%`, email: search, phone: search },
@@ -78,10 +89,9 @@ export class CampaignsService {
   }
 
   async findAll(): Promise<Campaign[]> {
-    const campaigns: Campaign[] = await Campaign.find({
+    return await Campaign.find({
       where: { status: STATUS.active },
     });
-    return campaigns;
   }
 
   async findCampaignsWithFilter(
@@ -89,7 +99,7 @@ export class CampaignsService {
   ): Promise<Campaign[]> {
     const { search } = filterDto;
 
-    const campaigns: Campaign[] = await Campaign.createQueryBuilder('campaign')
+    return await Campaign.createQueryBuilder('campaign')
       .leftJoinAndSelect('campaign.group', 'group')
       .leftJoinAndSelect('campaign.user', 'user')
       .where(
@@ -97,8 +107,6 @@ export class CampaignsService {
         { userName: `%${search}%`, email: search, phone: search },
       )
       .getMany();
-
-    return campaigns;
   }
 
   async findOne(id: string) {
@@ -124,8 +132,8 @@ export class CampaignsService {
     if (description !== null) campaign.description = description;
     campaign.group = group;
 
-    campaign.save();
-    campaign.reload();
+    await campaign.save();
+    await campaign.reload();
 
     return campaign;
   }
@@ -133,7 +141,7 @@ export class CampaignsService {
   async remove(id: string): Promise<void> {
     const campaign: Campaign = await this.findOne(id);
     campaign.status = STATUS.deleted;
-    campaign.save();
+    await campaign.save();
   }
 
   private async get_group(id: string) {

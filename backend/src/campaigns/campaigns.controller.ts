@@ -17,7 +17,7 @@ import {
 import { Request } from 'express';
 
 import { CampaignsService } from './campaigns.service';
-import { CreateCampaignDto } from './dto/create-campaign.dto';
+import { CreateCampaignDto, CreateGroupDto } from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -37,6 +37,18 @@ export class CampaignsController {
   @Get('groups')
   async groups() {
     return await this.campaignsService.groups();
+  }
+
+  @Post('groups')
+  @ApiResponse({ status: HttpStatus.CREATED })
+  async createGroup(
+    @Body() createGroupDto: CreateGroupDto,
+  ): Promise<CreateResponseType> {
+    return createResponse(
+      HttpStatus.CREATED,
+      'Group created successfully',
+      await this.campaignsService.createGroup(createGroupDto),
+    );
   }
 
   @Post()
