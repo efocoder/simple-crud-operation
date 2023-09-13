@@ -18,5 +18,6 @@ COPY . .
 
 RUN chmod u+x script.sh
 
-RUN pnpm build
+ENTRYPOINT ["./script.sh"]
+
 
