@@ -18,7 +18,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   migrations: ['dist/db/migrations/*.js'],
   migrationsTableName: 'migrations',
   logging: true,
-  // synchronize: true, // TODO: Remove and configure migrations [sedem]
+  synchronize: true, // TODO: Remove and configure migrations [sedem]
   factories: [GroupsFactory, UserFactory, CampaignFactory],
   seeds: [MainSeeder],
 };
