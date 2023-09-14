@@ -21,5 +21,16 @@ export class CreateCampaignDto {
 export class CreateGroupDto {
   @IsNotEmpty()
   @IsString()
+  @ApiProperty()
   name: string;
+}
+
+export class PageDTO {
+  @ApiProperty({ default: 1, required: false })
+  page: number;
+}
+
+export class LimitDTO {
+  @ApiProperty({ default: 10, required: false })
+  limit: number;
 }

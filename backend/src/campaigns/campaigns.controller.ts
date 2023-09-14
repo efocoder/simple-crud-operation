@@ -17,9 +17,14 @@ import {
 import { Request } from 'express';
 
 import { CampaignsService } from './campaigns.service';
-import { CreateCampaignDto, CreateGroupDto } from './dto/create-campaign.dto';
+import {
+  CreateCampaignDto,
+  CreateGroupDto,
+  LimitDTO,
+  PageDTO,
+} from './dto/create-campaign.dto';
 import { UpdateCampaignDto } from './dto/update-campaign.dto';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetCampaignFilterDto } from './dto/get-campaign-filter.dto';
 import { UserGuard } from '../users/user.guard';
@@ -65,6 +70,8 @@ export class CampaignsController {
   }
 
   @Get()
+  @ApiQuery({ name: 'page', type: PageDTO })
+  @ApiQuery({ name: 'limit', type: LimitDTO })
   async find(
     @Req() req: Request,
     @Query() filterDto?: GetCampaignFilterDto,
