@@ -2,10 +2,9 @@
 
 pnpm build
 
-
+echo "Loading groups"
+pnpm seed
 
 echo "starting server"
 pnpm start #start:dev
 
-echo "Loading groups"
-pnpm seed

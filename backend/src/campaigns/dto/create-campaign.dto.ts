@@ -20,10 +20,6 @@ export class CreateCampaignDto {
 
 export class CreateGroupDto {
   @IsNotEmpty()
-  @IsUUID('4')
-  id: string;
-
-  @IsNotEmpty()
   @IsString()
   name: string;
 }
