@@ -16,13 +16,13 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   database: configService.get('POSTGRES_DB'),
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
-  dropSchema: true,
+  migrationsTableName: 'migrations',
   logging: true,
-  synchronize: true, // TODO: Remove and configure migrations [sedem]
+  // synchronize: true, // TODO: Remove and configure migrations [sedem]
   factories: [GroupsFactory, UserFactory, CampaignFactory],
   seeds: [MainSeeder],
 };
 
-const dataSource: DataSource = new DataSource(dataSourceOptions);
+const dataSource = new DataSource(dataSourceOptions);
 
 export default dataSource;
