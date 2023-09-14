@@ -3,6 +3,8 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { GroupsFactory } from './seeds/factories/group.factory';
 import MainSeeder from './seeds/main.seeder';
+import { UserFactory } from './seeds/factories/user.factory';
+import { CampaignFactory } from './seeds/factories/campaign.factory';
 
 export const configService = new ConfigService();
 export const dataSourceOptions: DataSourceOptions & SeederOptions = {
@@ -17,7 +19,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   dropSchema: true,
   logging: true,
   synchronize: true, // TODO: Remove and configure migrations [sedem]
-  factories: [GroupsFactory],
+  factories: [GroupsFactory, UserFactory, CampaignFactory],
   seeds: [MainSeeder],
 };
 
